@@ -1,0 +1,76 @@
+================================================
+MONGODB ATLAS QUICK SETUP (5 Minutes)
+================================================
+
+STEP 1: Create MongoDB Atlas Account
+-----------------------------------
+1. Visit: https://www.mongodb.com/cloud/atlas
+2. Click "Start Free"
+3. Create account with email: poorvajan28@gmail.com
+4. Password: poorvajan28
+5. Verify your email
+
+STEP 2: Create Free Cluster
+---------------------------
+1. Click "Build a Database"
+2. Select "M0 (Free Forever)" tier
+3. Choose your region (closest to you)
+4. Click "Create Cluster" (wait 2-3 minutes)
+
+STEP 3: Create Database User
+----------------------------
+1. In left menu, click "Database Access"
+2. Click "Add New Database User"
+3. Username: poorvajan
+4. Password: poorvajan28
+5. Add User Role: "Atlas Admin"
+6. Click "Add User"
+
+STEP 4: Get Connection String
+-----------------------------
+1. Click "Clusters" in left menu
+2. Click "Connect" button
+3. Select "Drivers"
+4. Choose "Node.js" and version "4.x or 5.x"
+5. Copy the connection string that looks like:
+   mongodb+srv://poorvajan:poorvajan28@cluster0.xxxxx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+
+6. Replace:
+   - "myFirstDatabase" with "safegirl-pro"
+   - Should look like: mongodb+srv://poorvajan:poorvajan28@cluster0.xxxxx.mongodb.net/safegirl-pro?retryWrites=true&w=majority
+
+STEP 5: Add to Vercel
+--------------------
+1. Go to: https://vercel.com/poorvajan-g-s-projects/backend/settings/environment-variables
+2. Click "Add New" Environment Variable
+3. Name: MONGODB_URI
+4. Value: Your connection string from Step 4
+5. Click "Save"
+6. Go to "Deployments"
+7. Click the latest deployment
+8. Click "Redeploy" button
+
+STEP 6: Test
+-----------
+After redeploy, visit:
+https://backend-cbc9xfcgw-poorvajan-g-s-projects.vercel.app/api/health
+
+Should show: {"status":"Server is running","timestamp":"..."}
+
+If DB is connected, should show database: "connected"
+
+================================================
+YOUR CREDENTIALS:
+================================================
+MongoDB Username: poorvajan
+MongoDB Password: poorvajan28
+Database Name: safegirl-pro
+
+================================================
+TROUBLESHOOTING:
+================================================
+- If connection fails, check IP whitelist in MongoDB Atlas
+- Make sure you added the connection string to Vercel env vars
+- After adding env vars, you MUST redeploy in Vercel
+
+Need help? Message me after you complete these steps!

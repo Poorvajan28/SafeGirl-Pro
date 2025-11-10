@@ -13,23 +13,48 @@ app.use(express.json());
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 // MongoDB Connection
+let isConnected = false;
+
 const connectDB = async () => {
+  if (isConnected) {
+    console.log("MongoDB already connected");
+    return;
+  }
+
   try {
-    await mongoose.connect(
-      process.env.MONGODB_URI || "mongodb://localhost:27017/safegirl-pro",
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
-    console.log("MongoDB connected successfully");
+    const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/safegirl-pro";
+    console.log("Attempting to connect to MongoDB...");
+    
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
+    
+    isConnected = true;
+    console.log("✅ MongoDB connected successfully");
   } catch (err) {
-    console.error("MongoDB connection failed:", err.message);
-    process.exit(1);
+    console.error("⚠️ MongoDB connection failed:", err.message);
+    isConnected = false;
+    // Don't exit process - allow API to work without DB for now
   }
 };
 
-connectDB();
+// Try to connect on startup, but don't block
+connectDB().catch(err => console.error("Connection error:", err));
+
+// Reconnect middleware
+app.use(async (req, res, next) => {
+  if (!isConnected) {
+    try {
+      await connectDB();
+    } catch (err) {
+      console.log("Retry connection failed");
+    }
+  }
+  next();
+});
 
 // Import Routes
 const authRoutes = require("./routes/auth");
