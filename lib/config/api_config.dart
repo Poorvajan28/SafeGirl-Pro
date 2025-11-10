@@ -6,7 +6,7 @@ class ApiConfig {
 
   // For production (Vercel):
   static const String baseUrl =
-      'https://backend-cbc9xfcgw-poorvajan-g-s-projects.vercel.app/api';
+      'https://backend-5o9p90a0y-poorvajan-g-s-projects.vercel.app/api';
 
   // API Endpoints
   static const String authRegister = '/auth/register';
