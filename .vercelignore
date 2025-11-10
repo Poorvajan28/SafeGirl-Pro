@@ -1,0 +1,5 @@
+backend/
+.git/
+.dart_tool/
+ios/
+android/
