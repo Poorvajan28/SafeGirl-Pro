@@ -5,7 +5,8 @@ class ApiConfig {
   // static const String baseUrl = 'http://localhost:5000/api';
 
   // For production (Vercel):
-  static const String baseUrl = 'https://safegirl-pro-api.vercel.app/api';
+  static const String baseUrl =
+      'https://backend-cbc9xfcgw-poorvajan-g-s-projects.vercel.app/api';
 
   // API Endpoints
   static const String authRegister = '/auth/register';
