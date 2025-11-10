@@ -1,10 +1,11 @@
 /// API Configuration for SafeGirl Pro Backend
 class ApiConfig {
   // Server Configuration
-  static const String baseUrl = 'http://localhost:5000/api';
+  // For development:
+  // static const String baseUrl = 'http://localhost:5000/api';
 
-  // For production, update this to your deployed backend URL
-  // static const String baseUrl = 'https://safegirl-pro-api.herokuapp.com/api';
+  // For production (Vercel):
+  static const String baseUrl = 'https://safegirl-pro-api.vercel.app/api';
 
   // API Endpoints
   static const String authRegister = '/auth/register';
