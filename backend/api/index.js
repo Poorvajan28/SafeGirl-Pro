@@ -38,14 +38,19 @@ const connectDB = async () => {
     
     console.log("🔄 Attempting MongoDB connection...");
     
-    await mongoose.connect(mongoUri, {
+    // Set connection options with aggressive timeouts
+    const options = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 10000,
-      socketTimeoutMS: 45000,
-      connectTimeoutMS: 10000,
-      retryWrites: true,
-    });
+      serverSelectionTimeoutMS: 8000,
+      socketTimeoutMS: 25000,
+      connectTimeoutMS: 8000,
+      family: 4, // Use IPv4
+      maxPoolSize: 3,
+      minPoolSize: 1,
+    };
+    
+    const connection = await mongoose.connect(mongoUri, options);
     
     isConnected = true;
     connectionError = null;
@@ -88,7 +93,7 @@ app.use("/api/guardian", guardianRoutes);
 app.use("/api/emergency", emergencyRoutes);
 app.use("/api/location", locationRoutes);
 
-// Health Check
+// Health Check - doesn't wait for DB
 app.get("/api/health", (req, res) => {
   const mongoUri = process.env.MONGODB_URI ? "Configured" : "Not Set";
   res.json({
@@ -97,6 +102,7 @@ app.get("/api/health", (req, res) => {
     database: isConnected ? "connected" : "disconnected",
     mongodbUri: mongoUri,
     error: connectionError || null,
+    note: "Set MONGODB_URI in environment variables",
   });
 });
 
