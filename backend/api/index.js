@@ -8,12 +8,22 @@ const app = express();
 
 // Middleware
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  credentials: true,
+  optionsSuccessStatus: 200,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json());
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 // MongoDB Connection
+let isConnected = false;
+
 const connectDB = async () => {
+  if (isConnected) return;
+  
   try {
     await mongoose.connect(
       process.env.MONGODB_URI || "mongodb://localhost:27017/safegirl-pro",
@@ -22,21 +32,32 @@ const connectDB = async () => {
         useUnifiedTopology: true,
       }
     );
+    isConnected = true;
     console.log("MongoDB connected successfully");
   } catch (err) {
     console.error("MongoDB connection failed:", err.message);
-    process.exit(1);
+    throw err;
   }
 };
 
-connectDB();
+// Initialize DB on first request
+app.use(async (req, res, next) => {
+  if (!isConnected) {
+    try {
+      await connectDB();
+    } catch (err) {
+      return res.status(500).json({ error: "Database connection failed" });
+    }
+  }
+  next();
+});
 
 // Import Routes
-const authRoutes = require("./routes/auth");
-const userRoutes = require("./routes/user");
-const guardianRoutes = require("./routes/guardian");
-const emergencyRoutes = require("./routes/emergency");
-const locationRoutes = require("./routes/location");
+const authRoutes = require("../routes/auth");
+const userRoutes = require("../routes/user");
+const guardianRoutes = require("../routes/guardian");
+const emergencyRoutes = require("../routes/emergency");
+const locationRoutes = require("../routes/location");
 
 // Register Routes
 app.use("/api/auth", authRoutes);
@@ -47,7 +68,20 @@ app.use("/api/location", locationRoutes);
 
 // Health Check
 app.get("/api/health", (req, res) => {
-  res.json({ status: "Server is running", timestamp: new Date() });
+  res.json({ 
+    status: "Server is running", 
+    timestamp: new Date(),
+    database: isConnected ? "connected" : "disconnected"
+  });
+});
+
+// Root endpoint
+app.get("/", (req, res) => {
+  res.json({ 
+    message: "SafeGirl Pro API",
+    version: "1.0.0",
+    health: "/api/health"
+  });
 });
 
 // Error Handling Middleware
@@ -63,16 +97,11 @@ app.use((err, req, res, next) => {
 
 // 404 Handler
 app.use((req, res) => {
-  res.status(404).json({ error: "Route not found" });
+  res.status(404).json({ 
+    error: "Route not found",
+    path: req.path,
+    method: req.method
+  });
 });
 
-// For Vercel serverless
 module.exports = app;
-
-// For local development
-if (require.main === module) {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`SafeGirl Pro Backend running on port ${PORT}`);
-  });
-}
