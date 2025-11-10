@@ -1,0 +1,73 @@
+================================================
+VERCEL ENVIRONMENT VARIABLES SETUP
+================================================
+
+Your MongoDB Credentials are now ready!
+
+FOLLOW THESE STEPS TO ADD TO VERCEL:
+
+================================================
+STEP 1: Go to Vercel Dashboard
+================================================
+1. Open: https://vercel.com/poorvajan-g-s-projects/backend/settings/environment-variables
+2. Make sure you are in the "backend" project
+
+================================================
+STEP 2: Add First Environment Variable
+================================================
+1. Click "Add New" button
+2. Enter:
+   - Name: MONGODB_URI
+   - Value: mongodb+srv://poorvajan28_db_user:YJE87Ono9BYRRWMO@cluster0.83uuqfh.mongodb.net/safegirl-pro?appName=Cluster0&retryWrites=true&w=majority
+3. Click "Save"
+
+================================================
+STEP 3: Add Second Environment Variable
+================================================
+1. Click "Add New" button again
+2. Enter:
+   - Name: JWT_SECRET
+   - Value: poorvajan28_jwt_secret_key_safegirl_pro_2024
+3. Click "Save"
+
+================================================
+STEP 4: Redeploy Backend
+================================================
+1. Go to: https://vercel.com/poorvajan-g-s-projects/backend/deployments
+2. Find the latest deployment (at the top)
+3. Click on it to open the deployment details
+4. Look for "Redeploy" button on the right side
+5. Click "Redeploy"
+6. Wait for the deployment to complete (should take 1-2 minutes)
+
+================================================
+STEP 5: Test Your Backend
+================================================
+Once redeployed, test the health endpoint:
+https://backend-5o9p90a0y-poorvajan-g-s-projects.vercel.app/api/health
+
+You should see:
+{
+  "status": "Server is running",
+  "timestamp": "...",
+  "database": "connected"
+}
+
+If database shows "connected", you're all set!
+
+================================================
+STEP 6: Your App is LIVE!
+================================================
+Frontend: https://safe-girl-cbdbyslc9-poorvajan-g-s-projects.vercel.app
+Backend: https://backend-5o9p90a0y-poorvajan-g-s-projects.vercel.app
+Database: MongoDB Atlas ✓
+
+Your complete SafeGirl Pro application is now running in production!
+
+================================================
+MONGODB CREDENTIALS FOR REFERENCE:
+================================================
+Username: poorvajan28_db_user
+Password: YJE87Ono9BYRRWMO
+Database Name: safegirl-pro
+Cluster: cluster0.83uuqfh.mongodb.net
