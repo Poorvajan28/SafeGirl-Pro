@@ -8,45 +8,67 @@ const app = express();
 
 // Middleware
 app.use(helmet());
-app.use(cors({
-  origin: "*",
-  credentials: true,
-  optionsSuccessStatus: 200,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+    optionsSuccessStatus: 200,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 // MongoDB Connection
 let isConnected = false;
+let connectionError = null;
 
 const connectDB = async () => {
-  if (isConnected) return;
-  
+  if (isConnected) return true;
+
   try {
-    await mongoose.connect(
-      process.env.MONGODB_URI || "mongodb://localhost:27017/safegirl-pro",
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
+    const mongoUri = process.env.MONGODB_URI;
+    
+    if (!mongoUri) {
+      console.error("❌ MONGODB_URI environment variable not set!");
+      connectionError = "MONGODB_URI not configured";
+      return false;
+    }
+    
+    console.log("🔄 Attempting MongoDB connection...");
+    
+    await mongoose.connect(mongoUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
+      connectTimeoutMS: 10000,
+      retryWrites: true,
+    });
+    
     isConnected = true;
-    console.log("MongoDB connected successfully");
+    connectionError = null;
+    console.log("✅ MongoDB connected successfully");
+    return true;
   } catch (err) {
-    console.error("MongoDB connection failed:", err.message);
-    throw err;
+    console.error("❌ MongoDB connection failed:", err.message);
+    connectionError = err.message;
+    isConnected = false;
+    return false;
   }
 };
 
-// Initialize DB on first request
+// Try to connect on startup
+connectDB().catch(err => console.error("Startup connection error:", err));
+
+// Middleware to retry connection on each request
 app.use(async (req, res, next) => {
-  if (!isConnected) {
+  if (!isConnected && !req.path.includes("/health")) {
     try {
       await connectDB();
     } catch (err) {
-      return res.status(500).json({ error: "Database connection failed" });
+      console.log("Connection retry failed");
     }
   }
   next();
@@ -68,19 +90,22 @@ app.use("/api/location", locationRoutes);
 
 // Health Check
 app.get("/api/health", (req, res) => {
-  res.json({ 
-    status: "Server is running", 
+  const mongoUri = process.env.MONGODB_URI ? "Configured" : "Not Set";
+  res.json({
+    status: "Server is running",
     timestamp: new Date(),
-    database: isConnected ? "connected" : "disconnected"
+    database: isConnected ? "connected" : "disconnected",
+    mongodbUri: mongoUri,
+    error: connectionError || null,
   });
 });
 
 // Root endpoint
 app.get("/", (req, res) => {
-  res.json({ 
+  res.json({
     message: "SafeGirl Pro API",
     version: "1.0.0",
-    health: "/api/health"
+    health: "/api/health",
   });
 });
 
@@ -97,10 +122,10 @@ app.use((err, req, res, next) => {
 
 // 404 Handler
 app.use((req, res) => {
-  res.status(404).json({ 
+  res.status(404).json({
     error: "Route not found",
     path: req.path,
-    method: req.method
+    method: req.method,
   });
 });
 
