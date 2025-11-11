@@ -1,5 +1,10 @@
 backend/
+backend/**/*
 .git/
 .dart_tool/
 ios/
 android/
+build/
+*.md
+*.txt
+*.ps1
