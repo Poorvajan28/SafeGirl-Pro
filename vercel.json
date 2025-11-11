@@ -1,17 +1,11 @@
 {
-  "version": 2,
   "routes": [
     {
-      "src": "/web/(.*)",
-      "dest": "/web/$1"
-    },
-    {
-      "src": "/(.*\\.(js|css|html|png|jpg|jpeg|gif|svg|ico|json|woff|woff2|ttf|eot|txt|xml|pdf))",
-      "dest": "/web/$1"
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "/web/index.html"
+      "dest": "/index.html"
     }
   ]
 }
