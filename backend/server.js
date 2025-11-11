@@ -22,16 +22,17 @@ const connectDB = async () => {
   }
 
   try {
-    const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/safegirl-pro";
+    const uri =
+      process.env.MONGODB_URI || "mongodb://localhost:27017/safegirl-pro";
     console.log("Attempting to connect to MongoDB...");
-    
+
     await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
     });
-    
+
     isConnected = true;
     console.log("✅ MongoDB connected successfully");
   } catch (err) {
@@ -42,7 +43,7 @@ const connectDB = async () => {
 };
 
 // Try to connect on startup, but don't block
-connectDB().catch(err => console.error("Connection error:", err));
+connectDB().catch((err) => console.error("Connection error:", err));
 
 // Reconnect middleware
 app.use(async (req, res, next) => {

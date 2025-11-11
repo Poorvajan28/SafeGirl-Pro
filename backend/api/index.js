@@ -29,15 +29,15 @@ const connectDB = async () => {
 
   try {
     const mongoUri = process.env.MONGODB_URI;
-    
+
     if (!mongoUri) {
       console.error("❌ MONGODB_URI environment variable not set!");
       connectionError = "MONGODB_URI not configured";
       return false;
     }
-    
+
     console.log("🔄 Attempting MongoDB connection...");
-    
+
     // Set connection options with aggressive timeouts
     const options = {
       useNewUrlParser: true,
@@ -49,9 +49,9 @@ const connectDB = async () => {
       maxPoolSize: 3,
       minPoolSize: 1,
     };
-    
+
     const connection = await mongoose.connect(mongoUri, options);
-    
+
     isConnected = true;
     connectionError = null;
     console.log("✅ MongoDB connected successfully");
@@ -65,7 +65,7 @@ const connectDB = async () => {
 };
 
 // Try to connect on startup
-connectDB().catch(err => console.error("Startup connection error:", err));
+connectDB().catch((err) => console.error("Startup connection error:", err));
 
 // Middleware to retry connection on each request
 app.use(async (req, res, next) => {
