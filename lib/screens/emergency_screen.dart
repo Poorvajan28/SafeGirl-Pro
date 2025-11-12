@@ -140,6 +140,12 @@ class _EmergencyScreenState extends State<EmergencyScreen>
                     },
                     myLocationEnabled: true,
                     myLocationButtonEnabled: true,
+                    compassEnabled: true,
+                    mapToolbarEnabled: true,
+                    // Performance optimizations
+                    liteModeEnabled: false,
+                    tiltGesturesEnabled: true,
+                    zoomGesturesEnabled: true,
                   ),
                 ),
               ),

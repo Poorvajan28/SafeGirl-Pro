@@ -76,15 +76,15 @@ class EmergencyService {
       _emergencyContacts = [
         EmergencyContact(
           id: '1',
-          name: 'Emergency Services',
-          phone: '911',
+          name: 'Police Emergency',
+          phone: '100',
           type: 'Emergency',
           createdAt: now,
           updatedAt: now,
         ),
         EmergencyContact(
           id: '2',
-          name: 'Women\'s Helpline',
+          name: 'Women Helpline',
           phone: '1091',
           type: 'Helpline',
           createdAt: now,
@@ -214,8 +214,8 @@ class EmergencyService {
       (c) => c.type == 'Emergency',
       orElse: () => EmergencyContact(
         id: '0',
-        name: 'Emergency',
-        phone: '911',
+        name: 'Police Emergency',
+        phone: '100',
         type: 'Emergency',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
