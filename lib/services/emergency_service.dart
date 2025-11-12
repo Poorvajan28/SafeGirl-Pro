@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:safegirl_pro/models/emergency_contact.dart';
 import 'package:safegirl_pro/models/emergency_session.dart';
-import 'package:safegirl_pro/models/guardian.dart';
 import 'package:safegirl_pro/models/scheduled_message.dart';
 import 'package:safegirl_pro/services/guardian_service.dart';
 import 'package:safegirl_pro/services/location_service.dart';
