@@ -154,15 +154,18 @@ class EmergencyService {
     final guardians = _guardianService.getGuardiansByPriority();
     for (final guardian in guardians) {
       await _sendSMS(guardian.phone);
-      await _makeCall(guardian.phone);
+      // Skip auto-call on web to prevent tab redirects
+      // await _makeCall(guardian.phone);
       _activeSession = _activeSession?.copyWith(
         notifiedGuardians: [..._activeSession!.notifiedGuardians, guardian.id],
       );
-      await Future.delayed(const Duration(seconds: 30));
+      // Reduced delay for better UX
+      await Future.delayed(const Duration(milliseconds: 500));
     }
 
     if (guardians.isEmpty || guardians.every((g) => !g.isVerified)) {
-      await _notifyPolice();
+      // Skip police call on web to prevent tab redirects
+      // await _notifyPolice();
     }
   }
 
