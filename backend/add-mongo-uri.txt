@@ -1,0 +1,1 @@
+mongodb+srv://poorvajan28_db_user:YJE87Ono9BYRRWMO@cluster0.83uuqfh.mongodb.net/safegirl-pro?retryWrites=true&w=majority
