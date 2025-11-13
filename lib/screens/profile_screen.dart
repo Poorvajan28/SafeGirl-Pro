@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:safegirl_pro/screens/auth_screen.dart';
+import 'package:safegirl_pro/screens/location_history_screen.dart';
+import 'package:safegirl_pro/screens/emergency_messages_screen.dart';
 import 'package:safegirl_pro/services/app_services.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -96,13 +98,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
               icon: Icons.location_on_outlined,
               title: 'Location History',
               subtitle: 'View your location tracking history',
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const LocationHistoryScreen(),
+                  ),
+                );
+              },
             ),
             _buildSettingsTile(
               icon: Icons.message_outlined,
               title: 'Emergency Messages',
               subtitle: 'Configure automated messages',
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const EmergencyMessagesScreen(),
+                  ),
+                );
+              },
             ),
             _buildSettingsTile(
               icon: Icons.help_outline,

@@ -2003,9 +2003,11 @@ file:///D:/SafeGirl%20Pro/lib/models/pending_action.dart
 file:///D:/SafeGirl%20Pro/lib/models/scheduled_message.dart
 file:///D:/SafeGirl%20Pro/lib/models/user.dart
 file:///D:/SafeGirl%20Pro/lib/screens/auth_screen.dart
+file:///D:/SafeGirl%20Pro/lib/screens/emergency_messages_screen.dart
 file:///D:/SafeGirl%20Pro/lib/screens/emergency_screen.dart
 file:///D:/SafeGirl%20Pro/lib/screens/guardians_screen.dart
 file:///D:/SafeGirl%20Pro/lib/screens/home_screen.dart
+file:///D:/SafeGirl%20Pro/lib/screens/location_history_screen.dart
 file:///D:/SafeGirl%20Pro/lib/screens/onboarding_screen.dart
 file:///D:/SafeGirl%20Pro/lib/screens/profile_screen.dart
 file:///D:/SafeGirl%20Pro/lib/services/app_services.dart

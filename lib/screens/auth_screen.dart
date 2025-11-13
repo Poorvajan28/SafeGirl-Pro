@@ -231,7 +231,8 @@ class _AuthScreenState extends State<AuthScreen> {
                             maxLength: 4,
                             validator: (value) {
                               if (value?.isEmpty ?? true) return 'Required';
-                              if (value!.length != 4) return 'PIN must be 4 digits';
+                              if (value!.length != 4)
+                                return 'PIN must be 4 digits';
                               return null;
                             },
                           ),
@@ -246,7 +247,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                     color: Colors.white.withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(16),
                                     border: Border.all(
-                                      color: Colors.white.withValues(alpha: 0.2),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.2),
                                     ),
                                   ),
                                   child: Row(
@@ -260,7 +262,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                       Expanded(
                                         child: Text(
                                           'Enable Biometric Login',
-                                          style: theme.textTheme.bodyMedium?.copyWith(
+                                          style: theme.textTheme.bodyMedium
+                                              ?.copyWith(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -268,8 +271,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                       ),
                                       Switch(
                                         value: _useBiometric,
-                                        onChanged: (value) =>
-                                            setState(() => _useBiometric = value),
+                                        onChanged: (value) => setState(
+                                            () => _useBiometric = value),
                                         activeColor: colorScheme.tertiary,
                                       ),
                                     ],
@@ -367,7 +370,8 @@ class _AuthScreenState extends State<AuthScreen> {
           labelStyle: TextStyle(color: Colors.white.withValues(alpha: 0.8)),
           prefixIcon: Icon(icon, color: Colors.white.withValues(alpha: 0.8)),
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           counterText: '',
           counterStyle: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
         ),
@@ -398,7 +402,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
     if (mounted) {
       Navigator.of(context).pop(); // Close loading
-      
+
       if (result['success'] == true) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -406,7 +410,7 @@ class _AuthScreenState extends State<AuthScreen> {
             backgroundColor: Colors.green,
           ),
         );
-        
+
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const HomeScreen()),
         );

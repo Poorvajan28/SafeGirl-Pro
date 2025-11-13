@@ -11,7 +11,7 @@ class AuthService {
 
   User? _currentUser;
   String? _authToken;
-  
+
   User? get currentUser => _currentUser;
   String? get authToken => _authToken;
 
@@ -89,21 +89,24 @@ class AuthService {
 
       if (response.statusCode == 201 || response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        
+
         // Save token
         if (data['token'] != null) {
           _authToken = data['token'];
           await _storage.saveData('auth_token', _authToken!);
         }
-        
+
         // Save user locally
         _currentUser = User.fromJson(data['user']);
         await _saveUser();
-        
+
         return {'success': true, 'message': 'Registration successful'};
       } else {
         final error = jsonDecode(response.body);
-        return {'success': false, 'message': error['error'] ?? 'Registration failed'};
+        return {
+          'success': false,
+          'message': error['error'] ?? 'Registration failed'
+        };
       }
     } catch (e) {
       print('Register error: $e');
@@ -140,17 +143,17 @@ class AuthService {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        
+
         // Save token
         if (data['token'] != null) {
           _authToken = data['token'];
           await _storage.saveData('auth_token', _authToken!);
         }
-        
+
         // Save user
         _currentUser = User.fromJson(data['user']);
         await _saveUser();
-        
+
         return {'success': true, 'message': 'Login successful'};
       } else {
         final error = jsonDecode(response.body);
@@ -158,14 +161,17 @@ class AuthService {
       }
     } catch (e) {
       print('Login error: $e');
-      return {'success': false, 'message': 'Connection failed. Please try again.'};
+      return {
+        'success': false,
+        'message': 'Connection failed. Please try again.'
+      };
     }
   }
 
   Future<void> updateUser(User user) async {
     _currentUser = user;
     await _saveUser();
-    
+
     // Update on backend if online
     try {
       if (_authToken != null) {
