@@ -20,6 +20,12 @@
     <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="A new Flutter project." />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
     <!-- iOS meta tags & icons -->
     <meta name="mobile-web-app-capable" content="yes" />
@@ -37,6 +43,26 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_61gUmMqJhAJcaXVZprT-JHU6OBg-SEw"></script>
   </head>
   <body>
-    <script src="flutter_bootstrap.js" async></script>
+    <script>
+      (async function () {
+        if ("serviceWorker" in navigator) {
+          try {
+            const regs = await navigator.serviceWorker.getRegistrations();
+            for (const r of regs) {
+              await r.unregister();
+            }
+          } catch (e) {}
+        }
+        if (window.caches) {
+          try {
+            const keys = await caches.keys();
+            for (const k of keys) {
+              await caches.delete(k);
+            }
+          } catch (e) {}
+        }
+      })();
+    </script>
+    <script src="flutter_bootstrap.js?v=20251113_02" async></script>
   </body>
 </html>
