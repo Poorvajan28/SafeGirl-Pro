@@ -3,9 +3,7 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {".vercel/project.json": "a795b5c238bb44d0454b862ff5655309",
-".vercel/README.txt": "2b13c79d37d6ed82a3255b83b6815034",
-"assets/AssetManifest.bin": "693635b5258fe5f1cda720cf224f158c",
+const RESOURCES = {"assets/AssetManifest.bin": "693635b5258fe5f1cda720cf224f158c",
 "assets/AssetManifest.bin.json": "69a99f98c8b1fb8111c5fb961769fcd8",
 "assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b9",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
@@ -36,7 +34,6 @@ const RESOURCES = {".vercel/project.json": "a795b5c238bb44d0454b862ff5655309",
 "/": "05184c4ce75a3474a4740aa2f62fc69b",
 "main.dart.js": "5c83a740ce21d72e83f26d9311d7e7a4",
 "manifest.json": "864e5bf6648887d951e429df4bb69a48",
-"vercel.json": "84c360fb026ecc44590e25967e23b8f7",
 "version.json": "f9ac74b96666ab71f528e9402a901946"};
 // The application shell files that are downloaded before a service worker can
 // start.
